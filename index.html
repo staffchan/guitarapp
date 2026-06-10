@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chord Lantern</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Chord Lantern</p>
+      <h1>弾き語りコード譜</h1>
+    </div>
+    <button class="ghost-button" id="toggleEditorButton" type="button">曲を登録</button>
+  </header>
+
+  <main>
+    <section class="song-panel" aria-label="曲の選択">
+      <label for="songSelect">曲</label>
+      <select id="songSelect"></select>
+      <div class="song-meta">
+        <span id="songDuration">0:00</span>
+        <span id="scrollStatus">停止中</span>
+      </div>
+    </section>
+
+    <section class="editor-panel is-hidden" id="editorPanel" aria-label="曲の登録">
+      <form id="songForm">
+        <div class="quick-import">
+          <label for="quickImportText">AI出力をまとめて貼り付け</label>
+          <textarea
+            id="quickImportText"
+            rows="8"
+            placeholder="曲名: 曲の名前&#10;演奏時間: 4:10&#10;コード譜:&#10;[G]歌詞 [B]歌詞"
+          ></textarea>
+          <button class="import-button" id="importSongButton" type="button">内容を取り込む</button>
+          <p class="import-status" id="importStatus" role="status"></p>
+        </div>
+
+        <div class="field-row">
+          <label for="songTitle">曲名</label>
+          <input id="songTitle" name="songTitle" type="text" required>
+        </div>
+
+        <div class="field-row">
+          <label for="songMinutes">演奏時間</label>
+          <div class="time-inputs">
+            <input id="songMinutes" name="songMinutes" type="number" min="0" max="59" inputmode="numeric" required>
+            <span>分</span>
+            <input id="songSeconds" name="songSeconds" type="number" min="0" max="59" inputmode="numeric" required>
+            <span>秒</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label for="songChart">コード譜</label>
+          <textarea id="songChart" name="songChart" rows="12" required></textarea>
+        </div>
+
+        <div class="editor-actions">
+          <button class="primary-button" type="submit">保存</button>
+          <button class="ghost-button" id="newSongButton" type="button">新規</button>
+          <button class="danger-button" id="deleteSongButton" type="button">削除</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="chart-stage" aria-label="コード譜">
+      <div class="chart-title">
+        <h2 id="currentTitle"></h2>
+        <p id="currentSubtitle">スマホ縦画面用</p>
+      </div>
+      <div class="chart-lines" id="chartLines"></div>
+    </section>
+  </main>
+
+  <nav class="player-bar" aria-label="演奏コントロール">
+    <button class="control-button play-button" id="performanceModeButton" type="button">演奏モード</button>
+    <button class="control-button" id="playPauseButton" type="button">一時停止</button>
+    <button class="control-button" id="resetButton" type="button">最初へ</button>
+    <label class="speed-control" for="speedRange">
+      <span>速度</span>
+      <input id="speedRange" type="range" min="0.5" max="1.5" step="0.05" value="1">
+      <strong id="speedValue">1.00x</strong>
+    </label>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
