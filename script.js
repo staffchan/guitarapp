@@ -87,6 +87,8 @@ let elapsedBeforePause = 0;
 let lastTickTime = 0;
 let speed = Number(elements.speedRange.value);
 let audioFollowEnabled = false;
+const SOUND_HOLD_MS = 4000;
+const MIN_SOUND_THRESHOLD = 1.2;
 const microphone = {
   stream: null,
   audioContext: null,
@@ -95,6 +97,8 @@ const microphone = {
   animationId: null,
   isStarting: false,
   currentVolume: 0,
+  noiseFloor: 0.5,
+  soundThreshold: MIN_SOUND_THRESHOLD,
   soundActiveUntil: 0
 };
 
@@ -457,6 +461,8 @@ function stopMicrophone() {
   microphone.timeDomainData = null;
   microphone.animationId = null;
   microphone.currentVolume = 0;
+  microphone.noiseFloor = 0.5;
+  microphone.soundThreshold = MIN_SOUND_THRESHOLD;
   microphone.soundActiveUntil = 0;
 }
 
@@ -473,13 +479,20 @@ function updateVolumeMeter() {
   });
 
   const rootMeanSquare = Math.sqrt(squareTotal / microphone.timeDomainData.length);
-  const volume = Math.min(100, Math.round(rootMeanSquare * 420));
+  const volume = Math.min(100, rootMeanSquare * 420);
 
   microphone.currentVolume = volume;
 
-  if (volume >= 4) {
-    // コードチェンジなどの短い無音では、スクロールを止めないよう少し待ちます。
-    microphone.soundActiveUntil = performance.now() + 1200;
+  if (performance.now() > microphone.soundActiveUntil) {
+    // スマホを置く場所ごとの環境音に合わせ、静かなときの音量をゆっくり学習します。
+    microphone.noiseFloor = microphone.noiseFloor * 0.98 + volume * 0.02;
+  }
+
+  microphone.soundThreshold = Math.max(MIN_SOUND_THRESHOLD, microphone.noiseFloor * 1.8);
+
+  if (volume >= microphone.soundThreshold) {
+    // コードの余韻やストローク間の短い無音では追従を止めません。
+    microphone.soundActiveUntil = performance.now() + SOUND_HOLD_MS;
   }
 
   microphone.animationId = requestAnimationFrame(updateVolumeMeter);
