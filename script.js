@@ -5,7 +5,7 @@ const sampleSongs = [
   {
     id: "sample-koyoi-no-tsuki",
     title: "今宵の月のように",
-    durationSeconds: 250,
+    durationSeconds: 253,
     chart: `[G]くだらねえと [B]つぶやいて
 [Em]醒めたつらして [G7]歩く
 [C]いつの日[D]か [B]輝くだろ[Em]う
@@ -51,6 +51,83 @@ const sampleSongs = [
 
 [G] [F] [G] [F] [G] [F]
 [G] [G]`
+  },
+  {
+    id: "sample-marigold",
+    title: "マリーゴールド",
+    durationSeconds: 307,
+    chart: `[C]
+
+[C] [G] [Am] [Em]
+[F] [C] [F] [G]
+
+[C]風の強さが [G]ちょっと
+[Am]心を揺さぶりすぎ[G]て
+[F]真面目に [C]見つめた
+
+[F]君が [G]恋しい
+
+[C]でんぐり返し [G]の日々
+[Am]可哀想なふりをし [G]て
+[F]だらけて [C]みたけど
+
+[F]希望の [G]光は
+[Am]目の前でずっと [Em]輝いている
+
+[F]幸せ [G]だ
+
+[C]麦わらの帽子の [G]君が
+[Am]揺れたマリーゴールドに [G]似てる
+[F]あれは空がまだ青[C]い [Am]夏のこと
+[F]懐かしいと笑えた [G]あの日の恋
+
+[C]「もう離れな[G]いで」と
+[Am]泣きそうな目で見つめる [G]君を
+[F]雲のような優しさ [C]でそっと [Am]ぎゅっと
+[F]抱きしめて [G]抱きしめて離さない
+
+[C] [G]
+
+[C]本当の気持ち [G]全部
+[Am]吐き出せるほど強くは [G]ない
+
+[F]でも [C]不思議なくらいに
+[F]絶望は見[G]えない
+
+[Am]目の奥にずっと [Em]写るシルエット
+
+[F]大好き [G]さ
+
+[C]柔らかな肌を寄[G]せあい
+[Am]少し冷たい空気を [G]2人
+[F]かみしめて歩く今[C]日という日に
+
+[Am]何と名前をつけようか [F]なんて話して [G]
+[C]ああアイラブ [G]ユーの言葉 [Am]じゃ
+[G]足りないからと キスして
+
+[F]雲がまだ2人の [C]影を残 [Am]すから
+[F]いつまでも [G]いつまでもこのまま
+
+[Am]遥か遠 [G]い場所にいても [C]
+[G]繋がっていたいなあ
+
+[Am]2人の想い [G]が [C]
+[G]同じでありますように
+
+[C] [F] [G] [Am]
+
+[F] [G]
+
+[C]離さな [F]い [G] [Am]
+
+[F]いつまでも [G]いつまでも離さな [C]い [G]
+
+[C] [G] [Am] [Em]
+
+[F] [C] [F] [G]
+
+[C]`
   }
 ];
 
@@ -121,11 +198,16 @@ function loadSongs() {
     const recoveredSongs = activeSavedSongs
       .filter((song) => {
         const originalSample = sampleSongs.find((sampleSong) => sampleSong.id === song.id);
+        const isPreviousBuiltInVersion = song.id === "sample-koyoi-no-tsuki"
+          && song.title === originalSample?.title
+          && song.chart === originalSample?.chart
+          && song.durationSeconds === 250;
+
         return originalSample && (
           song.title !== originalSample.title
           || song.chart !== originalSample.chart
           || song.durationSeconds !== originalSample.durationSeconds
-        );
+        ) && !isPreviousBuiltInVersion;
       })
       .map((song) => ({
         ...song,
