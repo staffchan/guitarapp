@@ -186,7 +186,8 @@ textarea:focus {
   min-height: 10rem;
 }
 
-.backup-tools {
+.backup-tools,
+.cloud-tools {
   display: grid;
   gap: 0.65rem;
   margin-top: 1rem;
@@ -224,7 +225,8 @@ textarea:focus {
   font-size: 0.78rem;
 }
 
-.backup-status {
+.backup-status,
+.cloud-status {
   min-height: 1.3rem;
   color: var(--chord);
   font-size: 0.78rem;
