@@ -1,5 +1,6 @@
 const STORAGE_KEY = "chordLanternSongs";
 const CLOUD_ENDPOINT_KEY = "chordLanternCloudEndpoint";
+const DELETED_SONG_IDS_KEY = "chordLanternDeletedSongIds";
 const BACKUP_VERSION = 1;
 const REMOVED_SAMPLE_SONG_IDS = new Set(["sample-moon-road"]);
 
@@ -454,10 +455,12 @@ const microphone = {
 };
 
 function loadSongs() {
+  const deletedSongIds = loadDeletedSongIds();
   const savedSongs = localStorage.getItem(STORAGE_KEY);
 
   if (!savedSongs) {
-    return sampleSongs;
+    const visibleSampleSongs = sampleSongs.filter((song) => !deletedSongIds.has(song.id));
+    return visibleSampleSongs.length ? visibleSampleSongs : sampleSongs;
   }
 
   try {
@@ -467,7 +470,9 @@ function loadSongs() {
       return sampleSongs;
     }
 
-    const activeSavedSongs = parsedSongs.filter((song) => !REMOVED_SAMPLE_SONG_IDS.has(song.id));
+    const activeSavedSongs = parsedSongs.filter((song) => {
+      return !REMOVED_SAMPLE_SONG_IDS.has(song.id) && !deletedSongIds.has(song.id);
+    });
     const orderedSongs = [];
     const includedSampleIds = new Set();
 
@@ -512,6 +517,10 @@ function loadSongs() {
     });
 
     sampleSongs.forEach((sampleSong) => {
+      if (deletedSongIds.has(sampleSong.id)) {
+        return;
+      }
+
       const hasEquivalentSong = orderedSongs.some((song) => {
         return song.title === sampleSong.title && song.chart === sampleSong.chart;
       });
@@ -522,7 +531,7 @@ function loadSongs() {
       }
     });
 
-    return orderedSongs;
+    return orderedSongs.length ? orderedSongs : sampleSongs;
   } catch {
     return sampleSongs;
   }
@@ -541,6 +550,47 @@ function createRecoveredSongId(song) {
 
 function saveSongs() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
+}
+
+function loadDeletedSongIds() {
+  const savedIds = localStorage.getItem(DELETED_SONG_IDS_KEY);
+
+  if (!savedIds) {
+    return new Set();
+  }
+
+  try {
+    const parsedIds = JSON.parse(savedIds);
+    return new Set(Array.isArray(parsedIds) ? parsedIds.filter(Boolean) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveDeletedSongIds(deletedSongIds) {
+  localStorage.setItem(DELETED_SONG_IDS_KEY, JSON.stringify([...deletedSongIds]));
+}
+
+function rememberDeletedSongId(songId) {
+  if (!songId) {
+    return;
+  }
+
+  const deletedSongIds = loadDeletedSongIds();
+  deletedSongIds.add(songId);
+  saveDeletedSongIds(deletedSongIds);
+}
+
+function forgetDeletedSongId(songId) {
+  if (!songId) {
+    return;
+  }
+
+  const deletedSongIds = loadDeletedSongIds();
+
+  if (deletedSongIds.delete(songId)) {
+    saveDeletedSongIds(deletedSongIds);
+  }
 }
 
 function loadCloudEndpoint() {
@@ -644,6 +694,7 @@ function mergeImportedSongs(importedSongs) {
     });
 
     if (existingIndex >= 0) {
+      forgetDeletedSongId(songs[existingIndex].id);
       songs[existingIndex] = {
         ...importedSong,
         id: songs[existingIndex].id
@@ -653,9 +704,11 @@ function mergeImportedSongs(importedSongs) {
       return;
     }
 
+    const nextSongId = createUniqueSongId(importedSong.id);
+    forgetDeletedSongId(nextSongId);
     songs.push({
       ...importedSong,
-      id: createUniqueSongId(importedSong.id)
+      id: nextSongId
     });
     currentSongId = songs[songs.length - 1].id;
     added += 1;
@@ -688,10 +741,16 @@ async function loadSongsFromCloud() {
   try {
     saveCloudEndpoint(endpoint);
     const cloudData = await fetchCloudSongs(endpoint);
+    const deletedResult = applyCloudDeletedSongIds(cloudData);
     const importedSongs = extractBackupSongs(cloudData);
 
     if (importedSongs.length === 0) {
-      elements.cloudStatus.textContent = "読み込める曲が見つかりません";
+      elements.cloudStatus.textContent = deletedResult.removed > 0
+        ? `${deletedResult.removed}曲を削除同期しました`
+        : "読み込める曲が見つかりません";
+      saveSongs();
+      renderSongOptions();
+      renderCurrentSong();
       return;
     }
 
@@ -699,12 +758,32 @@ async function loadSongsFromCloud() {
     saveSongs();
     renderSongOptions();
     renderCurrentSong();
-    elements.cloudStatus.textContent = `${mergeResult.added}曲追加、${mergeResult.updated}曲更新しました`;
+    const deleteMessage = deletedResult.removed > 0
+      ? `、${deletedResult.removed}曲削除同期`
+      : "";
+    elements.cloudStatus.textContent = `${mergeResult.added}曲追加、${mergeResult.updated}曲更新${deleteMessage}しました`;
   } catch {
     elements.cloudStatus.textContent = "読み込みできませんでした。URLと公開設定を確認してください";
   } finally {
     elements.loadCloudSongsButton.disabled = false;
   }
+}
+
+function applyCloudDeletedSongIds(cloudData) {
+  const deletedSongIds = Array.isArray(cloudData?.deletedSongIds)
+    ? cloudData.deletedSongIds.map((songId) => String(songId || "").trim()).filter(Boolean)
+    : [];
+
+  if (deletedSongIds.length === 0) {
+    return { removed: 0 };
+  }
+
+  const deletedSongIdSet = new Set(deletedSongIds);
+  const beforeCount = songs.length;
+  songs = songs.filter((song) => !deletedSongIdSet.has(song.id));
+  deletedSongIds.forEach(rememberDeletedSongId);
+
+  return { removed: beforeCount - songs.length };
 }
 
 async function fetchCloudSongs(endpoint) {
@@ -789,6 +868,39 @@ async function saveSongToCloud(song) {
     elements.cloudStatus.textContent = "スプレッドシートへ保存しました";
   } catch {
     elements.cloudStatus.textContent = "ブラウザには保存済みです。シート保存はURLを確認してください";
+  }
+}
+
+async function deleteSongFromCloud(song) {
+  const endpoint = elements.cloudEndpoint.value.trim();
+
+  if (!endpoint) {
+    elements.cloudStatus.textContent = "ブラウザから削除しました";
+    return;
+  }
+
+  elements.cloudStatus.textContent = "スプレッドシートへ削除を同期中";
+
+  try {
+    const endpointUrl = new URL(endpoint, window.location.href);
+    await fetch(endpointUrl.toString(), {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "deleteSong",
+        song: {
+          id: song.id,
+          title: song.title
+        }
+      })
+    });
+    saveCloudEndpoint(endpoint);
+    elements.cloudStatus.textContent = "スプレッドシートへ削除を同期しました";
+  } catch {
+    elements.cloudStatus.textContent = "ブラウザからは削除済みです。シート削除はURLを確認してください";
   }
 }
 
@@ -1076,16 +1188,25 @@ function prepareNewSong() {
 }
 
 function handleSongDelete() {
+  const deletedSong = getCurrentSong();
+
+  rememberDeletedSongId(deletedSong.id);
+
   if (songs.length <= 1) {
-    songs = sampleSongs;
+    songs = sampleSongs.filter((song) => song.id !== deletedSong.id);
+
+    if (songs.length === 0) {
+      songs = sampleSongs;
+    }
   } else {
-    songs = songs.filter((song) => song.id !== currentSongId);
+    songs = songs.filter((song) => song.id !== deletedSong.id);
   }
 
   currentSongId = songs[0].id;
   saveSongs();
   renderSongOptions();
   renderCurrentSong();
+  void deleteSongFromCloud(deletedSong);
 }
 
 async function startMicrophone() {
