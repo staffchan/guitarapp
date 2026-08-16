@@ -1,6 +1,7 @@
 const STORAGE_KEY = "chordLanternSongs";
 const CLOUD_ENDPOINT_KEY = "chordLanternCloudEndpoint";
 const DELETED_SONG_IDS_KEY = "chordLanternDeletedSongIds";
+const DEFAULT_CLOUD_ENDPOINT = "https://script.google.com/macros/s/AKfycbwpQX3n0S9MMEptLb0SQelOtExlHmhvzSzVpAHDTbbj2ONPUE14uwkvZXeAhMndSZNzJQ/exec";
 const BACKUP_VERSION = 1;
 const REMOVED_SAMPLE_SONG_IDS = new Set(["sample-moon-road"]);
 
@@ -594,7 +595,7 @@ function forgetDeletedSongId(songId) {
 }
 
 function loadCloudEndpoint() {
-  return localStorage.getItem(CLOUD_ENDPOINT_KEY) || "";
+  return localStorage.getItem(CLOUD_ENDPOINT_KEY) || DEFAULT_CLOUD_ENDPOINT;
 }
 
 function saveCloudEndpoint(endpoint) {
