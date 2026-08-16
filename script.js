@@ -1108,7 +1108,14 @@ function importSongText() {
     chart ? "コード譜" : ""
   ].filter(Boolean);
 
-  elements.importStatus.textContent = `${importedItems.join("・")}を新しい曲として取り込みました`;
+  const savedSong = handleSongSave();
+
+  if (!savedSong) {
+    elements.importStatus.textContent = "曲名・演奏時間・コード譜を確認してください";
+    return;
+  }
+
+  elements.importStatus.textContent = `${importedItems.join("・")}を読み取り、${savedSong.title}を保存しました`;
 }
 
 function parseImportedDuration(durationText) {
@@ -1128,7 +1135,7 @@ function parseImportedDuration(durationText) {
 }
 
 function handleSongSave(event) {
-  event.preventDefault();
+  event?.preventDefault();
 
   const title = elements.songTitle.value.trim();
   const artist = elements.songArtist.value.trim();
@@ -1139,7 +1146,7 @@ function handleSongSave(event) {
   const durationSeconds = minutes * 60 + seconds;
 
   if (!title || !chart || durationSeconds <= 0) {
-    return;
+    return null;
   }
 
   const existingSongIndex = songs.findIndex((song) => song.id === currentSongId);
@@ -1163,6 +1170,7 @@ function handleSongSave(event) {
   renderSongOptions();
   renderCurrentSong();
   void saveSongToCloud(nextSong);
+  return nextSong;
 }
 
 function createSongId() {
@@ -1485,7 +1493,7 @@ elements.importSongButton.addEventListener("click", importSongText);
 elements.exportSongsButton.addEventListener("click", exportSongsBackup);
 elements.importBackupButton.addEventListener("click", importSongsBackup);
 elements.loadCloudSongsButton.addEventListener("click", loadSongsFromCloud);
-elements.newSongButton.addEventListener("click", prepareNewSong);
+elements.newSongButton?.addEventListener("click", prepareNewSong);
 elements.deleteSongButton.addEventListener("click", handleSongDelete);
 
 elements.performanceModeButton.addEventListener("click", () => {

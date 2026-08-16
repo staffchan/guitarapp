@@ -31,46 +31,46 @@
           <label for="quickImportText">AI出力をまとめて貼り付け</label>
           <textarea
             id="quickImportText"
-            rows="8"
+            rows="12"
             placeholder="曲名: 曲の名前&#10;アーティスト: アーティスト名&#10;カポ: 2&#10;演奏時間: 4:10&#10;コード譜:&#10;[G]歌詞 [B]歌詞"
           ></textarea>
-          <button class="import-button" id="importSongButton" type="button">内容を取り込む</button>
+          <button class="import-button" id="importSongButton" type="button">貼り付け内容を保存</button>
           <p class="import-status" id="importStatus" role="status"></p>
         </div>
 
-        <div class="field-row">
-          <label for="songTitle">曲名</label>
-          <input id="songTitle" name="songTitle" type="text" required>
-        </div>
+        <div class="manual-fields is-hidden" aria-hidden="true">
+          <div class="field-row">
+            <label for="songTitle">曲名</label>
+            <input id="songTitle" name="songTitle" type="text">
+          </div>
 
-        <div class="field-row">
-          <label for="songArtist">アーティスト名</label>
-          <input id="songArtist" name="songArtist" type="text" placeholder="例: あいみょん">
-        </div>
+          <div class="field-row">
+            <label for="songArtist">アーティスト名</label>
+            <input id="songArtist" name="songArtist" type="text" placeholder="例: あいみょん">
+          </div>
 
-        <div class="field-row">
-          <label for="songCapo">カポ</label>
-          <input id="songCapo" name="songCapo" type="text" placeholder="例: 2 / なし">
-        </div>
+          <div class="field-row">
+            <label for="songCapo">カポ</label>
+            <input id="songCapo" name="songCapo" type="text" placeholder="例: 2 / なし">
+          </div>
 
-        <div class="field-row">
-          <label for="songMinutes">演奏時間</label>
-          <div class="time-inputs">
-            <input id="songMinutes" name="songMinutes" type="number" min="0" max="59" inputmode="numeric" required>
-            <span>分</span>
-            <input id="songSeconds" name="songSeconds" type="number" min="0" max="59" inputmode="numeric" required>
-            <span>秒</span>
+          <div class="field-row">
+            <label for="songMinutes">演奏時間</label>
+            <div class="time-inputs">
+              <input id="songMinutes" name="songMinutes" type="number" min="0" max="59" inputmode="numeric">
+              <span>分</span>
+              <input id="songSeconds" name="songSeconds" type="number" min="0" max="59" inputmode="numeric">
+              <span>秒</span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label for="songChart">コード譜</label>
+            <textarea id="songChart" name="songChart" rows="12"></textarea>
           </div>
         </div>
 
-        <div class="field-row">
-          <label for="songChart">コード譜</label>
-          <textarea id="songChart" name="songChart" rows="12" required></textarea>
-        </div>
-
         <div class="editor-actions">
-          <button class="primary-button" type="submit">保存</button>
-          <button class="ghost-button" id="newSongButton" type="button">新規</button>
           <button class="danger-button" id="deleteSongButton" type="button">削除</button>
         </div>
       </form>
@@ -131,6 +131,6 @@
     </label>
   </nav>
 
-  <script src="script.js?v=20260817-7"></script>
+  <script src="script.js?v=20260817-8"></script>
 </body>
 </html>
