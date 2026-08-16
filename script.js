@@ -755,6 +755,43 @@ function fetchCloudSongsJsonp(endpointUrl) {
   });
 }
 
+async function saveSongToCloud(song) {
+  const endpoint = elements.cloudEndpoint.value.trim();
+
+  if (!endpoint) {
+    elements.cloudStatus.textContent = "ブラウザに保存しました";
+    return;
+  }
+
+  elements.cloudStatus.textContent = "スプレッドシートへ保存中";
+
+  try {
+    const endpointUrl = new URL(endpoint, window.location.href);
+    await fetch(endpointUrl.toString(), {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "saveSong",
+        song: {
+          id: song.id,
+          title: song.title,
+          artist: song.artist || "",
+          capo: song.capo || "",
+          durationSeconds: song.durationSeconds,
+          chart: song.chart
+        }
+      })
+    });
+    saveCloudEndpoint(endpoint);
+    elements.cloudStatus.textContent = "スプレッドシートへ保存しました";
+  } catch {
+    elements.cloudStatus.textContent = "ブラウザには保存済みです。シート保存はURLを確認してください";
+  }
+}
+
 function getCurrentSong() {
   return songs.find((song) => song.id === currentSongId) || songs[0];
 }
@@ -1012,6 +1049,7 @@ function handleSongSave(event) {
   saveSongs();
   renderSongOptions();
   renderCurrentSong();
+  void saveSongToCloud(nextSong);
 }
 
 function createSongId() {
