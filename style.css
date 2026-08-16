@@ -97,7 +97,6 @@ main {
 }
 
 .song-panel,
-.song-list-panel,
 .editor-panel {
   margin-top: 1rem;
   padding: 0.9rem;
@@ -111,84 +110,6 @@ main {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.5rem;
-}
-
-.song-list-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  margin-bottom: 0.75rem;
-}
-
-.song-list-heading h2 {
-  font-size: 1.05rem;
-}
-
-.song-list-heading span {
-  flex: 0 0 auto;
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-weight: 800;
-}
-
-.song-list {
-  display: grid;
-  gap: 0.55rem;
-}
-
-.song-list-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.65rem;
-  padding: 0.75rem;
-  border: 1px solid rgba(216, 181, 106, 0.18);
-  border-radius: 8px;
-  background: rgba(24, 21, 18, 0.72);
-}
-
-.song-list-item.is-current {
-  border-color: rgba(216, 181, 106, 0.55);
-  background: rgba(111, 41, 43, 0.28);
-}
-
-.song-list-detail {
-  min-width: 0;
-  display: grid;
-  gap: 0.08rem;
-}
-
-.song-list-detail strong {
-  overflow-wrap: anywhere;
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-.song-list-detail span {
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-weight: 800;
-}
-
-.song-list-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.45rem;
-}
-
-.song-list-button {
-  min-height: 42px;
-  border: 1px solid rgba(216, 181, 106, 0.24);
-  border-radius: 8px;
-  background: var(--panel-light);
-  color: var(--text);
-  font-size: 0.86rem;
-  font-weight: 850;
-}
-
-.song-list-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.38;
 }
 
 label {
@@ -263,6 +184,51 @@ textarea:focus {
 
 .quick-import textarea {
   min-height: 10rem;
+}
+
+.backup-tools {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(216, 181, 106, 0.22);
+}
+
+.backup-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.backup-heading h2 {
+  font-size: 1rem;
+}
+
+.backup-heading span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.backup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.backup-tools textarea {
+  min-height: 9rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.backup-status {
+  min-height: 1.3rem;
+  color: var(--chord);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .import-button {
@@ -454,7 +420,6 @@ body.is-performance-mode main {
 
 body.is-performance-mode .app-header,
 body.is-performance-mode .song-panel,
-body.is-performance-mode .song-list-panel,
 body.is-performance-mode .editor-panel {
   display: none;
 }
@@ -519,15 +484,6 @@ body.is-performance-mode .chart-line {
   .song-panel {
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-  }
-
-  .song-list-item {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-  }
-
-  .song-list-actions {
-    grid-template-columns: repeat(3, minmax(4rem, auto));
   }
 
   .player-bar {
