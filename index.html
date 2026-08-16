@@ -82,7 +82,7 @@
         </div>
         <div class="backup-actions">
           <button class="ghost-button" id="exportSongsButton" type="button">書き出す</button>
-          <button class="ghost-button" id="importBackupButton" type="button">読み込む</button>
+          <button class="ghost-button" id="importBackupButton" type="button">バックアップを読み込む</button>
         </div>
         <textarea
           id="backupText"
@@ -90,6 +90,24 @@
           placeholder="書き出した曲データをここに表示します。別の端末へ移すときは、この内容をコピーして貼り付けます。"
         ></textarea>
         <p class="backup-status" id="backupStatus" role="status"></p>
+      </div>
+
+      <div class="cloud-tools" aria-label="スプレッドシート連携">
+        <div class="backup-heading">
+          <h2>スプレッドシート</h2>
+          <span>読み込み専用</span>
+        </div>
+        <div class="field-row">
+          <label for="cloudEndpoint">Apps Script URL</label>
+          <input
+            id="cloudEndpoint"
+            type="url"
+            inputmode="url"
+            placeholder="https://script.google.com/macros/s/.../exec"
+          >
+        </div>
+        <button class="ghost-button" id="loadCloudSongsButton" type="button">シートから読み込む</button>
+        <p class="cloud-status" id="cloudStatus" role="status"></p>
       </div>
     </section>
 
@@ -113,6 +131,6 @@
     </label>
   </nav>
 
-  <script src="script.js?v=20260817-3"></script>
+  <script src="script.js?v=20260817-4"></script>
 </body>
 </html>
