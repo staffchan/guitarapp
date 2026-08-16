@@ -1,4 +1,5 @@
 const STORAGE_KEY = "chordLanternSongs";
+const CLOUD_ENDPOINT_KEY = "chordLanternCloudEndpoint";
 const BACKUP_VERSION = 1;
 const REMOVED_SAMPLE_SONG_IDS = new Set(["sample-moon-road"]);
 
@@ -409,6 +410,9 @@ const elements = {
   exportSongsButton: document.querySelector("#exportSongsButton"),
   importBackupButton: document.querySelector("#importBackupButton"),
   backupStatus: document.querySelector("#backupStatus"),
+  cloudEndpoint: document.querySelector("#cloudEndpoint"),
+  loadCloudSongsButton: document.querySelector("#loadCloudSongsButton"),
+  cloudStatus: document.querySelector("#cloudStatus"),
   songTitle: document.querySelector("#songTitle"),
   songArtist: document.querySelector("#songArtist"),
   songCapo: document.querySelector("#songCapo"),
@@ -539,6 +543,14 @@ function saveSongs() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
 }
 
+function loadCloudEndpoint() {
+  return localStorage.getItem(CLOUD_ENDPOINT_KEY) || "";
+}
+
+function saveCloudEndpoint(endpoint) {
+  localStorage.setItem(CLOUD_ENDPOINT_KEY, endpoint);
+}
+
 function buildBackupData() {
   return {
     app: "Chord Lantern",
@@ -660,6 +672,87 @@ function createUniqueSongId(preferredId) {
   }
 
   return createSongId();
+}
+
+async function loadSongsFromCloud() {
+  const endpoint = elements.cloudEndpoint.value.trim();
+
+  if (!endpoint) {
+    elements.cloudStatus.textContent = "Apps Script URLを入力してください";
+    return;
+  }
+
+  elements.loadCloudSongsButton.disabled = true;
+  elements.cloudStatus.textContent = "スプレッドシートから読み込み中";
+
+  try {
+    saveCloudEndpoint(endpoint);
+    const cloudData = await fetchCloudSongs(endpoint);
+    const importedSongs = extractBackupSongs(cloudData);
+
+    if (importedSongs.length === 0) {
+      elements.cloudStatus.textContent = "読み込める曲が見つかりません";
+      return;
+    }
+
+    const mergeResult = mergeImportedSongs(importedSongs);
+    saveSongs();
+    renderSongOptions();
+    renderCurrentSong();
+    elements.cloudStatus.textContent = `${mergeResult.added}曲追加、${mergeResult.updated}曲更新しました`;
+  } catch {
+    elements.cloudStatus.textContent = "読み込みできませんでした。URLと公開設定を確認してください";
+  } finally {
+    elements.loadCloudSongsButton.disabled = false;
+  }
+}
+
+async function fetchCloudSongs(endpoint) {
+  const endpointUrl = new URL(endpoint, window.location.href);
+  endpointUrl.searchParams.set("mode", "songs");
+  endpointUrl.searchParams.set("cache", String(Date.now()));
+
+  try {
+    const response = await fetch(endpointUrl.toString(), { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error("Cloud response was not ok");
+    }
+
+    return response.json();
+  } catch {
+    return fetchCloudSongsJsonp(endpointUrl);
+  }
+}
+
+function fetchCloudSongsJsonp(endpointUrl) {
+  return new Promise((resolve, reject) => {
+    const callbackName = `chordLanternCloud${Date.now()}${Math.round(Math.random() * 10000)}`;
+    const script = document.createElement("script");
+    const timerId = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("Cloud request timed out"));
+    }, 15000);
+
+    function cleanup() {
+      window.clearTimeout(timerId);
+      script.remove();
+      delete window[callbackName];
+    }
+
+    window[callbackName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    endpointUrl.searchParams.set("callback", callbackName);
+    script.src = endpointUrl.toString();
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Cloud request failed"));
+    };
+    document.body.append(script);
+  });
 }
 
 function getCurrentSong() {
@@ -1231,6 +1324,7 @@ elements.songForm.addEventListener("submit", handleSongSave);
 elements.importSongButton.addEventListener("click", importSongText);
 elements.exportSongsButton.addEventListener("click", exportSongsBackup);
 elements.importBackupButton.addEventListener("click", importSongsBackup);
+elements.loadCloudSongsButton.addEventListener("click", loadSongsFromCloud);
 elements.newSongButton.addEventListener("click", prepareNewSong);
 elements.deleteSongButton.addEventListener("click", handleSongDelete);
 
@@ -1260,4 +1354,5 @@ elements.speedRange.addEventListener("input", (event) => {
 window.addEventListener("pagehide", stopMicrophone);
 
 renderSongOptions();
+elements.cloudEndpoint.value = loadCloudEndpoint();
 renderCurrentSong();
