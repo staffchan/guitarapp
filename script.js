@@ -5,6 +5,8 @@ const sampleSongs = [
   {
     id: "sample-koyoi-no-tsuki",
     title: "今宵の月のように",
+    artist: "エレファントカシマシ",
+    capo: "0",
     durationSeconds: 253,
     chart: `[G]くだらねえと [B]つぶやいて
 [Em]醒めたつらして [G7]歩く
@@ -55,6 +57,8 @@ const sampleSongs = [
   {
     id: "sample-marigold",
     title: "マリーゴールド",
+    artist: "あいみょん",
+    capo: "2",
     durationSeconds: 307,
     chart: `[C]
 
@@ -128,6 +132,265 @@ const sampleSongs = [
 [F] [C] [F] [G]
 
 [C]`
+  },
+  {
+    id: "sample-sakura",
+    title: "桜",
+    artist: "コブクロ",
+    capo: "2",
+    durationSeconds: 397,
+    chart: `[A] [E] [F#m7] [C#m] [D] [E]
+[A] [E] [F#m7] [C#m] [D] [E] [Esus4]
+[E] [F#m7] [E]
+
+[A]名もない花には [F#m7]名前をつけましょ[C#m]う
+[D]この世に一つし[E]かない
+[A]冬の寒さに打[F#m7]ちひしがれないよう[C#m]に
+[D]誰かの声[E]で
+[D]また起きあが[E]れるように[A][E]
+
+[A]土の中で眠[F#m7]る命のかたま[C#m]り
+[D]アスファルト押し[E]のけて
+[A]会うたびにいつも
+[Bm]会えない [C#]時のさ[F#m]みしさ
+[D]わけあう2[E]人 [D]太陽と[E]月のよう
+[A]で・・・
+[F]実のならない花[C]も
+つぼみ[F]のま[G]ま散[E]る花[Am]も
+[F]あなたと誰かの[Em]これから[Am]を
+[F]春の風をあび[E]て見[D]て[E]る
+
+[A]桜の花びら[E]散るたびに
+[F#m7]届かぬ思いが[C#m7]また一つ
+[D]涙と笑顔に[A]消されて[F#m7]く
+[Bm7]そしてま[B7]た大人[E]になった
+[A]追いかけるだけの[E]悲しみは
+[F#m]強く清らかな[C#m]悲しみは
+[D]いつまでも変わる[A]事のな[F#m7]い
+[D]無くさないで[Dm]君の中に
+[E]咲く [A]Love・・・ [E] [F#m] [C#m]
+[D] [E]
+
+[A] [E] [F#m] [C#m] [D] [E] [F#m7]
+[E]
+
+[A]街の中見かけ[F#m7]た君は淋しげ[C#m]に
+[D]人ごみにまぎ[E]れてた
+[A]あの頃の澄んだ[Bm]瞳の[C#]奥の[F#m]輝き
+[D]時の早さ[E]に [D]汚されてし[E]まわぬよう[A]に
+[F]何も話さない[C]で
+[F]言葉[G]にな[F]らな[E]いは[Am]ずさ
+[F]流した涙は[Em]雨とな[Am]り
+[F]僕の心の[E]傷い[D]や[E]す
+
+[A]人はみな心[E]の岸辺に
+[F#m7]手放したくない[C#m7]花がある
+[D]それはたくましい[A]花じゃな[F#m]く
+[Bm7]はかなく[B7]ゆれる[E]一輪花
+
+[A]花びらの数と[E]同じだけ
+[F#m]生きていく強さ[C#]を感じる
+[D]嵐ふく風に[A]打たれて[F#m]も
+[Bm]やまない[B7]雨はな[E]いはずと
+
+[A]桜の花びら[E]散るたびに
+[F#m]届かぬ思いが[C#m]また一つ
+[D]涙と笑顔に[A]消されて[F#m]く
+[Bm]そしてま[B7]た大人[E]になった
+
+[A]追いかけるだけの[E]悲しみは
+[F#m]強く清らかな[C#m]悲しみは
+[D]いつまでも変わる[A]事のな[F#m]い
+[D]君の中に[Dm]僕の中に
+[E]咲く [A]Love・・・ [E] [F#m7] [C#m]
+[D] [E]
+
+[A] [E] [F#m7] [C#m] [D] [E] [F#m7]
+[E]`
+  },
+  {
+    id: "sample-subete-ga-boku-no-chikara",
+    title: "全てが僕の力になる！",
+    artist: "くず",
+    capo: "",
+    durationSeconds: 272,
+    chart: `[N.C.]君の声が力になる！
+[N.C.]君の笑顔が力になる！
+
+[C] [G] [Am] [F] [G] [C] [G]
+[Am] [F] [G]
+
+[C]今までの僕[G]はいつも
+[Am]ひとりで生きて[F]ると[G]思ってた
+[C]大きな声で叫[G]んでみても
+[F]誰も振り向いてく[Dm]れないと[G]思って[C]たんだ [Csus4] [C]
+
+[Am]許せない事があっ[Em]ても
+[F]テレビのニュースに怒っ[C]ても
+[Am]やりきれない心のモヤ[Em]モヤも
+[F]全部ひっ[Em]くるめて[F]力にす[G]ればいい
+
+[C]君の[G]声が聞[Am]きたいから
+[F]君の[Dm]笑顔が[G]見たいか[C]ら
+何も[G]かもを抱[Am]きしめたら
+[F]それが[Dm]僕の[G]力にな[C]る！
+
+[C] [G] [Am] [F] [G] [C]
+
+[C]今までの僕[G]はいつも
+[Am]勇気を出すこ[F]とを[G]恐れてた
+[C]何が目の前[G]に起きても
+[F]誰かがやって[Dm]くれると[G]思って[C]たんだ [Csus4] [C]
+
+[Am]降り注ぐしがらみに怯[Em]えても
+[F]モラルの無さに傷つ[C]いても
+[Am]いくあてない気持ちのイラ[Em]イラも
+[F]全部ひっ[Em]くるめて[F]力にす[G]ればいい
+
+[C]君の[G]声が聞[Am]きたいから
+[F]君の[Dm]笑顔が[G]見たいか[C]ら
+何も[G]かもを抱[Am]きしめたら
+[F]それが[Dm]僕の[G]力にな[C]る！
+
+[F] [Em] [Dm] [C] [F] [Em] [F] [G]
+
+[Am]立ち上がれないほどのダメージを受[Em]けても
+[F]自由な羽根を誰かに押さえつけ[C]られても
+[Am]何をやってもダメな今日があっ[Em]ても
+[F]全部ひっ[Em]くるめて[F]力にす[G]ればいい
+
+[Dm]そして見た[Em]こと無い[F]力にな[G]ればいい
+
+[C]君の[G]声が聞[Am]きたいから
+[F]君の[Dm]笑顔が[G]見たいか[C]ら
+何も[G]かもを抱[Am]きしめたら
+[F]それが[Dm]僕の[G]力にな[C]る！
+
+[G]君の声が聞[Am]きたいから
+[F]君の[Dm]笑顔が[G]見たいか[C]ら
+何も[G]かもを抱[Am]きしめたら
+[F]それが[Dm]僕の[G]力にな[C]る！
+
+[F]全て[Dm]が僕の[G]力にな[C]る！
+
+[C] [G] [Am] [F] [G] [C] [G]
+[Am] [F] [G] [C]`
+  },
+  {
+    id: "sample-moonlight-kuzu",
+    title: "ムーンライト",
+    artist: "くず",
+    capo: "3",
+    durationSeconds: 203,
+    chart: `[C]空に(空に)今夜
+[Am]も(今夜も) [G]星が出[Gsus4]て[G]
+
+[C]僕の(僕の)夢
+[Am]を(My dream)叶[G]えてくれる
+
+[C]ムーン [Am]ライト [F7]ムーン [G]ライト
+[F]今夜[G]も いい夢見る[C]よ [Am] [G]
+
+[C]月の(月の)明かり
+[Am]が(明かりが)射[G]して来[Gsus4]て[G]
+
+[C]僕に(僕に)希望
+[Am]を(My 希望)与[G]えてくれる
+
+[C]ムーン [Am]ライト [F]ムーン [G]ライト
+[F]今夜[G]も いい夢見る[C]よ
+
+[F7]いつかここから出られるな[C]ら [Csus4]
+[C]Woh [F7]月の光を思い切り浴び[G]てもう一度あの丘に
+
+[C]ムーン [Am]ライト [F]ムーン [G]ライト
+[F]今夜[G]も いい夢見る[C]よ [G]
+
+[C]ムーン [Am]ライト [F]ムーン [G]ライト
+
+[C]月[Em]に月にい[Am]る うさ[Em]ぎ[F7]達
+[G]Yeah…モチを
+
+[C]ペッタンペッタン [Em]
+[Am]ペッタンペッタン [Em]
+[F7]ペッタンペッタン [G]ペッタンペッタン
+
+[C]かぐ[Em]や[Am]姫が竹[Em]の[F7]中から
+[G]Woh 素手で
+
+[C]パッカンパッカン [Em]
+[Am]パッカンパッカン [Em]
+[F7]パッカンパッカン
+[G]ニッコニッコ
+
+[C] [Em] [Am] [Em] [F7] [G] [C]
+
+[Em]うさ[Am]ぎ のついたモチ[Em]が
+[F7]食べたく[G]て[C]
+
+[Em]きな[Am]こ モチといそ[Em]べ[F7]焼きをお[G]願い
+
+[C]あんこもね
+
+[Em] [Am] [Em] [F7] [G] [C] [F7]
+[C]
+
+(Thank you)
+(Good night)`
+  },
+  {
+    id: "sample-denen",
+    title: "田園",
+    artist: "玉置浩二",
+    capo: "",
+    durationSeconds: 240,
+    chart: `[G] [Gadd9] [C] [G] [Gadd9] [C] [D]
+[Em] [C] [G] [D] [Em] [C] [D7]
+
+[Em]石コロけとばし [C]夕陽に泣いた [G]僕[D]
+[Em]夜空見上げて 星[C]に祈ってた [G]君[D]
+[Em]アブラにまみれて [C]黙り込んだあいつ[G][D]
+
+[Em]仕事ほっぽらかして [C]ほおづえつくあの[G]娘[D]
+[Em]何もできないで [C]誰も救えないで
+[Am]悲しみひとつも [Em]いやせないで
+[Em]カッコつけてないで
+[C]やれるもんだけで
+[D]毎日 何かを 頑張っていりゃ
+
+[G]生きていくんだ [C]それでい[B]いんだ
+[Am]ビルに飲み込まれ 街にはじかれて
+[Em]それでも その手を 離さないで
+[G]僕がいるんだ [C]みんない[B]るんだ
+[Am]愛はここにある [D]君はどこへもいけな[G]い[D]
+
+[Em] [C] [G] [D] [Em] [C] [D7]
+
+[Em]ひだまりのなか がむ[C]しゃらに走る[G]僕[D]
+[Em]そろばんはじいて [C]頭かかえてた[G]君[D]
+[Em]からのミルクビンに タ[C]ンポポさすあいつ[G][D]
+
+[Em]道をはずれちゃって とほ[C]うに暮れるあの[G]娘[D]
+[Em]何もうばわないで [C]誰も傷つけないで
+[Am]幸せひとつも [Em]守れないで
+[Em]そんなに急がないで
+[C]そんなにあせらないで
+[D]明日も何かを頑張っていりゃ
+
+[G]生きていくんだ [C]それでい[B]いんだ
+[Am]波に巻き込まれ 風に飛ばされて
+[Em]それでも その目を つぶらないで
+[G]僕がいるんだ [C]みんない[B]るんだ
+[Am]そして君がいる [D]他に何ができる
+
+[G]生きていくんだ [C]それでい[B]いんだ
+[Am]ビルに飲み込まれ 街にはじかれて
+[Em]それでも その手を 離さないで
+[G]僕がいるんだ [C]君もい[B]るんだ
+[Am]みんなここにいる [D]愛はどこへもいかな[G]い
+
+[G] [Gadd9] [C] [G] [Gadd9] [C]
+[Am] [Em] [C] [B7] [Am] [D] [G]`
   }
 ];
 
@@ -135,6 +398,8 @@ const elements = {
   songSelect: document.querySelector("#songSelect"),
   songDuration: document.querySelector("#songDuration"),
   scrollStatus: document.querySelector("#scrollStatus"),
+  songList: document.querySelector("#songList"),
+  songCount: document.querySelector("#songCount"),
   toggleEditorButton: document.querySelector("#toggleEditorButton"),
   editorPanel: document.querySelector("#editorPanel"),
   songForm: document.querySelector("#songForm"),
@@ -142,6 +407,8 @@ const elements = {
   importSongButton: document.querySelector("#importSongButton"),
   importStatus: document.querySelector("#importStatus"),
   songTitle: document.querySelector("#songTitle"),
+  songArtist: document.querySelector("#songArtist"),
+  songCapo: document.querySelector("#songCapo"),
   songMinutes: document.querySelector("#songMinutes"),
   songSeconds: document.querySelector("#songSeconds"),
   songChart: document.querySelector("#songChart"),
@@ -194,28 +461,61 @@ function loadSongs() {
     }
 
     const activeSavedSongs = parsedSongs.filter((song) => !REMOVED_SAMPLE_SONG_IDS.has(song.id));
-    const sampleSongIds = new Set(sampleSongs.map((song) => song.id));
-    const recoveredSongs = activeSavedSongs
-      .filter((song) => {
-        const originalSample = sampleSongs.find((sampleSong) => sampleSong.id === song.id);
-        const isPreviousBuiltInVersion = song.id === "sample-koyoi-no-tsuki"
-          && song.title === originalSample?.title
-          && song.chart === originalSample?.chart
-          && song.durationSeconds === 250;
+    const orderedSongs = [];
+    const includedSampleIds = new Set();
 
-        return originalSample && (
-          song.title !== originalSample.title
-          || song.chart !== originalSample.chart
-          || song.durationSeconds !== originalSample.durationSeconds
-        ) && !isPreviousBuiltInVersion;
-      })
-      .map((song) => ({
+    activeSavedSongs.forEach((song) => {
+      const originalSample = sampleSongs.find((sampleSong) => sampleSong.id === song.id);
+
+      if (!originalSample) {
+        orderedSongs.push(song);
+        return;
+      }
+
+      const isPreviousBuiltInVersion = song.id === "sample-koyoi-no-tsuki"
+        && song.title === originalSample.title
+        && song.chart === originalSample.chart
+        && song.durationSeconds === 250;
+      const isPreviousBuiltInMetadataVersion = song.title === originalSample.title
+        && song.chart === originalSample.chart
+        && song.durationSeconds === originalSample.durationSeconds
+        && (!("artist" in song) || (song.artist || "") === (originalSample.artist || ""))
+        && (song.capo || "") === "";
+      const isCurrentBuiltInVersion = song.title === originalSample.title
+        && song.chart === originalSample.chart
+        && song.durationSeconds === originalSample.durationSeconds
+        && (
+          (!("artist" in song) && !("capo" in song))
+          || (
+            (song.artist || "") === (originalSample.artist || "")
+            && (song.capo || "") === (originalSample.capo || "")
+          )
+        );
+
+      if (isPreviousBuiltInVersion || isPreviousBuiltInMetadataVersion || isCurrentBuiltInVersion) {
+        orderedSongs.push(originalSample);
+        includedSampleIds.add(originalSample.id);
+        return;
+      }
+
+      orderedSongs.push({
         ...song,
         id: createRecoveredSongId(song)
-      }));
-    const userSongs = activeSavedSongs.filter((song) => !sampleSongIds.has(song.id));
+      });
+    });
 
-    return [...userSongs, ...recoveredSongs, ...sampleSongs];
+    sampleSongs.forEach((sampleSong) => {
+      const hasEquivalentSong = orderedSongs.some((song) => {
+        return song.title === sampleSong.title && song.chart === sampleSong.chart;
+      });
+
+      if (!includedSampleIds.has(sampleSong.id) && !hasEquivalentSong) {
+        orderedSongs.push(sampleSong);
+        includedSampleIds.add(sampleSong.id);
+      }
+    });
+
+    return orderedSongs;
   } catch {
     return sampleSongs;
   }
@@ -246,6 +546,28 @@ function formatDuration(totalSeconds) {
   return `${minutes}:${seconds}`;
 }
 
+function formatCapo(capo) {
+  const trimmedCapo = String(capo || "").trim();
+
+  if (!trimmedCapo || trimmedCapo === "なし") {
+    return "";
+  }
+
+  if (/^\d+$/.test(trimmedCapo)) {
+    return `カポ${trimmedCapo}`;
+  }
+
+  return `カポ ${trimmedCapo}`;
+}
+
+function getSongMetaParts(song) {
+  return [
+    song.artist ? song.artist : "",
+    formatCapo(song.capo),
+    `演奏時間 ${formatDuration(song.durationSeconds)}`
+  ].filter(Boolean);
+}
+
 function renderSongOptions() {
   elements.songSelect.innerHTML = "";
 
@@ -259,12 +581,61 @@ function renderSongOptions() {
   elements.songSelect.value = currentSongId;
 }
 
+function renderSongList() {
+  elements.songList.innerHTML = "";
+  elements.songCount.textContent = `${songs.length}曲`;
+
+  songs.forEach((song, index) => {
+    const item = document.createElement("article");
+    item.className = "song-list-item";
+
+    if (song.id === currentSongId) {
+      item.classList.add("is-current");
+    }
+
+    const detail = document.createElement("div");
+    detail.className = "song-list-detail";
+
+    const title = document.createElement("strong");
+    title.textContent = song.title;
+
+    const meta = document.createElement("span");
+    meta.textContent = getSongMetaParts(song).join(" ・ ");
+
+    detail.append(title, meta);
+
+    const actions = document.createElement("div");
+    actions.className = "song-list-actions";
+
+    const selectButton = createSongListButton("選択", "select", song.id);
+    const upButton = createSongListButton("上へ", "up", song.id);
+    const downButton = createSongListButton("下へ", "down", song.id);
+
+    upButton.disabled = index === 0;
+    downButton.disabled = index === songs.length - 1;
+
+    actions.append(selectButton, upButton, downButton);
+    item.append(detail, actions);
+    elements.songList.append(item);
+  });
+}
+
+function createSongListButton(label, action, songId) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "song-list-button";
+  button.textContent = label;
+  button.dataset.action = action;
+  button.dataset.songId = songId;
+  return button;
+}
+
 function renderCurrentSong() {
   const song = getCurrentSong();
   currentSongId = song.id;
 
   elements.currentTitle.textContent = song.title;
-  elements.currentSubtitle.textContent = `演奏時間 ${formatDuration(song.durationSeconds)}`;
+  elements.currentSubtitle.textContent = getSongMetaParts(song).join(" ・ ");
   elements.songDuration.textContent = formatDuration(song.durationSeconds);
   elements.chartLines.innerHTML = "";
 
@@ -272,6 +643,7 @@ function renderCurrentSong() {
     elements.chartLines.append(lineElement);
   });
 
+  renderSongList();
   fillEditor(song);
   resetPlayer();
 }
@@ -348,6 +720,8 @@ function createChordToken(token) {
 
 function fillEditor(song) {
   elements.songTitle.value = song.title;
+  elements.songArtist.value = song.artist || "";
+  elements.songCapo.value = song.capo || "";
   elements.songMinutes.value = Math.floor(song.durationSeconds / 60);
   elements.songSeconds.value = song.durationSeconds % 60;
   elements.songChart.value = song.chart;
@@ -365,8 +739,11 @@ function importSongText() {
 
   const normalizedText = sourceText.replace(/\r\n?/g, "\n");
   const titleMatch = normalizedText.match(/^(?:曲名|タイトル)\s*[:：]\s*(.+)$/m);
-  const durationMatch = normalizedText.match(/^(?:演奏時間|時間)\s*[:：]\s*(\d{1,2})\s*[:：]\s*(\d{1,2})$/m);
+  const artistMatch = normalizedText.match(/^(?:アーティスト|歌手|artist)\s*[:：]\s*(.+)$/im);
+  const capoMatch = normalizedText.match(/^(?:カポ|capo)\s*[:：]\s*(.+)$/im);
+  const durationLineMatch = normalizedText.match(/^(?:演奏時間|時間)\s*[:：]\s*(.+)$/m);
   const chartHeadingMatch = normalizedText.match(/^(?:コード譜|譜面)\s*[:：]\s*$/m);
+  const importedDuration = durationLineMatch ? parseImportedDuration(durationLineMatch[1]) : null;
   let chart = normalizedText;
 
   if (chartHeadingMatch) {
@@ -374,7 +751,7 @@ function importSongText() {
   } else {
     chart = normalizedText
       .split("\n")
-      .filter((line) => !/^(?:曲名|タイトル|演奏時間|時間)\s*[:：]/.test(line))
+      .filter((line) => !/^(?:曲名|タイトル|アーティスト|歌手|artist|カポ|capo|演奏時間|時間)\s*[:：]/i.test(line))
       .join("\n")
       .trim();
   }
@@ -385,9 +762,12 @@ function importSongText() {
     elements.songTitle.value = "";
   }
 
-  if (durationMatch) {
-    elements.songMinutes.value = Number(durationMatch[1]);
-    elements.songSeconds.value = Number(durationMatch[2]);
+  elements.songArtist.value = artistMatch ? artistMatch[1].trim() : "";
+  elements.songCapo.value = capoMatch ? capoMatch[1].trim() : "";
+
+  if (importedDuration) {
+    elements.songMinutes.value = Math.floor(importedDuration / 60);
+    elements.songSeconds.value = importedDuration % 60;
   } else {
     elements.songMinutes.value = 3;
     elements.songSeconds.value = 0;
@@ -403,17 +783,37 @@ function importSongText() {
 
   const importedItems = [
     titleMatch ? "曲名" : "",
-    durationMatch ? "演奏時間" : "",
+    artistMatch ? "アーティスト" : "",
+    capoMatch ? "カポ" : "",
+    importedDuration ? "演奏時間" : "",
     chart ? "コード譜" : ""
   ].filter(Boolean);
 
   elements.importStatus.textContent = `${importedItems.join("・")}を新しい曲として取り込みました`;
 }
 
+function parseImportedDuration(durationText) {
+  const trimmedText = durationText.trim();
+  const colonMatch = trimmedText.match(/^(\d{1,2})\s*[:：]\s*(\d{1,2})$/);
+  const japaneseMatch = trimmedText.match(/^(\d{1,2})\s*分\s*(\d{1,2})?\s*秒?$/);
+
+  if (colonMatch) {
+    return Number(colonMatch[1]) * 60 + Number(colonMatch[2]);
+  }
+
+  if (japaneseMatch) {
+    return Number(japaneseMatch[1]) * 60 + Number(japaneseMatch[2] || 0);
+  }
+
+  return null;
+}
+
 function handleSongSave(event) {
   event.preventDefault();
 
   const title = elements.songTitle.value.trim();
+  const artist = elements.songArtist.value.trim();
+  const capo = elements.songCapo.value.trim();
   const minutes = Number(elements.songMinutes.value);
   const seconds = Number(elements.songSeconds.value);
   const chart = elements.songChart.value.trim();
@@ -427,6 +827,8 @@ function handleSongSave(event) {
   const nextSong = {
     id: existingSongIndex >= 0 ? currentSongId : createSongId(),
     title,
+    artist,
+    capo,
     durationSeconds,
     chart
   };
@@ -456,6 +858,8 @@ function prepareNewSong() {
   currentSongId = "";
   elements.songSelect.value = "";
   elements.songTitle.value = "";
+  elements.songArtist.value = "";
+  elements.songCapo.value = "";
   elements.songMinutes.value = 3;
   elements.songSeconds.value = 0;
   elements.songChart.value = "";
@@ -472,6 +876,43 @@ function handleSongDelete() {
   }
 
   currentSongId = songs[0].id;
+  saveSongs();
+  renderSongOptions();
+  renderCurrentSong();
+}
+
+function handleSongListClick(event) {
+  const button = event.target.closest("button[data-action][data-song-id]");
+
+  if (!button) {
+    return;
+  }
+
+  const action = button.dataset.action;
+  const songId = button.dataset.songId;
+
+  if (action === "select") {
+    currentSongId = songId;
+    renderCurrentSong();
+    return;
+  }
+
+  if (action === "up" || action === "down") {
+    moveSong(songId, action === "up" ? -1 : 1);
+  }
+}
+
+function moveSong(songId, direction) {
+  const currentIndex = songs.findIndex((song) => song.id === songId);
+  const nextIndex = currentIndex + direction;
+
+  if (currentIndex < 0 || nextIndex < 0 || nextIndex >= songs.length) {
+    return;
+  }
+
+  const [movingSong] = songs.splice(currentIndex, 1);
+  songs.splice(nextIndex, 0, movingSong);
+  currentSongId = movingSong.id;
   saveSongs();
   renderSongOptions();
   renderCurrentSong();
@@ -619,7 +1060,7 @@ function exitPerformanceMode() {
   elements.performanceModeButton.textContent = "演奏モード";
   elements.playPauseButton.disabled = false;
   elements.playPauseButton.textContent = "一時停止";
-  elements.currentSubtitle.textContent = `演奏時間 ${formatDuration(getCurrentSong().durationSeconds)}`;
+  elements.currentSubtitle.textContent = getSongMetaParts(getCurrentSong()).join(" ・ ");
 }
 
 function play() {
@@ -731,7 +1172,7 @@ function updateScrollStatus() {
 
 function updatePerformanceStatus(status) {
   if (document.body.classList.contains("is-performance-mode")) {
-    elements.currentSubtitle.textContent = `${status} ・ 音に合わせて自動スクロール`;
+    elements.currentSubtitle.textContent = `${status} ・ ${getSongMetaParts(getCurrentSong()).join(" ・ ")}`;
   }
 }
 
@@ -751,6 +1192,7 @@ elements.songForm.addEventListener("submit", handleSongSave);
 elements.importSongButton.addEventListener("click", importSongText);
 elements.newSongButton.addEventListener("click", prepareNewSong);
 elements.deleteSongButton.addEventListener("click", handleSongDelete);
+elements.songList.addEventListener("click", handleSongListClick);
 
 elements.performanceModeButton.addEventListener("click", () => {
   if (document.body.classList.contains("is-performance-mode")) {
