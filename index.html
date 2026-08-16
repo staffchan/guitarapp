@@ -25,14 +25,6 @@
       </div>
     </section>
 
-    <section class="song-list-panel" aria-label="曲一覧">
-      <div class="song-list-heading">
-        <h2>曲一覧</h2>
-        <span id="songCount">0曲</span>
-      </div>
-      <div class="song-list" id="songList"></div>
-    </section>
-
     <section class="editor-panel is-hidden" id="editorPanel" aria-label="曲の登録">
       <form id="songForm">
         <div class="quick-import">
@@ -82,6 +74,23 @@
           <button class="danger-button" id="deleteSongButton" type="button">削除</button>
         </div>
       </form>
+
+      <div class="backup-tools" aria-label="曲データのバックアップ">
+        <div class="backup-heading">
+          <h2>保存データ</h2>
+          <span>ブラウザ保存</span>
+        </div>
+        <div class="backup-actions">
+          <button class="ghost-button" id="exportSongsButton" type="button">書き出す</button>
+          <button class="ghost-button" id="importBackupButton" type="button">読み込む</button>
+        </div>
+        <textarea
+          id="backupText"
+          rows="7"
+          placeholder="書き出した曲データをここに表示します。別の端末へ移すときは、この内容をコピーして貼り付けます。"
+        ></textarea>
+        <p class="backup-status" id="backupStatus" role="status"></p>
+      </div>
     </section>
 
     <section class="chart-stage" aria-label="コード譜">
@@ -104,6 +113,6 @@
     </label>
   </nav>
 
-  <script src="script.js?v=20260817-1"></script>
+  <script src="script.js?v=20260817-3"></script>
 </body>
 </html>
