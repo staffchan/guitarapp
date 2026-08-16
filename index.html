@@ -25,6 +25,14 @@
       </div>
     </section>
 
+    <section class="song-list-panel" aria-label="曲一覧">
+      <div class="song-list-heading">
+        <h2>曲一覧</h2>
+        <span id="songCount">0曲</span>
+      </div>
+      <div class="song-list" id="songList"></div>
+    </section>
+
     <section class="editor-panel is-hidden" id="editorPanel" aria-label="曲の登録">
       <form id="songForm">
         <div class="quick-import">
@@ -32,7 +40,7 @@
           <textarea
             id="quickImportText"
             rows="8"
-            placeholder="曲名: 曲の名前&#10;演奏時間: 4:10&#10;コード譜:&#10;[G]歌詞 [B]歌詞"
+            placeholder="曲名: 曲の名前&#10;アーティスト: アーティスト名&#10;カポ: 2&#10;演奏時間: 4:10&#10;コード譜:&#10;[G]歌詞 [B]歌詞"
           ></textarea>
           <button class="import-button" id="importSongButton" type="button">内容を取り込む</button>
           <p class="import-status" id="importStatus" role="status"></p>
@@ -41,6 +49,16 @@
         <div class="field-row">
           <label for="songTitle">曲名</label>
           <input id="songTitle" name="songTitle" type="text" required>
+        </div>
+
+        <div class="field-row">
+          <label for="songArtist">アーティスト名</label>
+          <input id="songArtist" name="songArtist" type="text" placeholder="例: あいみょん">
+        </div>
+
+        <div class="field-row">
+          <label for="songCapo">カポ</label>
+          <input id="songCapo" name="songCapo" type="text" placeholder="例: 2 / なし">
         </div>
 
         <div class="field-row">
@@ -86,6 +104,6 @@
     </label>
   </nav>
 
-  <script src="script.js?v=20260613-2"></script>
+  <script src="script.js?v=20260817-1"></script>
 </body>
 </html>
