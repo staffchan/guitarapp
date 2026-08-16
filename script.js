@@ -1,4 +1,5 @@
 const STORAGE_KEY = "chordLanternSongs";
+const BACKUP_VERSION = 1;
 const REMOVED_SAMPLE_SONG_IDS = new Set(["sample-moon-road"]);
 
 const sampleSongs = [
@@ -398,14 +399,16 @@ const elements = {
   songSelect: document.querySelector("#songSelect"),
   songDuration: document.querySelector("#songDuration"),
   scrollStatus: document.querySelector("#scrollStatus"),
-  songList: document.querySelector("#songList"),
-  songCount: document.querySelector("#songCount"),
   toggleEditorButton: document.querySelector("#toggleEditorButton"),
   editorPanel: document.querySelector("#editorPanel"),
   songForm: document.querySelector("#songForm"),
   quickImportText: document.querySelector("#quickImportText"),
   importSongButton: document.querySelector("#importSongButton"),
   importStatus: document.querySelector("#importStatus"),
+  backupText: document.querySelector("#backupText"),
+  exportSongsButton: document.querySelector("#exportSongsButton"),
+  importBackupButton: document.querySelector("#importBackupButton"),
+  backupStatus: document.querySelector("#backupStatus"),
   songTitle: document.querySelector("#songTitle"),
   songArtist: document.querySelector("#songArtist"),
   songCapo: document.querySelector("#songCapo"),
@@ -536,6 +539,129 @@ function saveSongs() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(songs));
 }
 
+function buildBackupData() {
+  return {
+    app: "Chord Lantern",
+    version: BACKUP_VERSION,
+    exportedAt: new Date().toISOString(),
+    songs: songs.map((song) => ({
+      id: song.id,
+      title: song.title,
+      artist: song.artist || "",
+      capo: song.capo || "",
+      durationSeconds: song.durationSeconds,
+      chart: song.chart
+    }))
+  };
+}
+
+function exportSongsBackup() {
+  const backupData = buildBackupData();
+  elements.backupText.value = JSON.stringify(backupData, null, 2);
+  elements.backupStatus.textContent = `${backupData.songs.length}曲分の保存データを書き出しました`;
+  elements.backupText.focus();
+  elements.backupText.select();
+}
+
+function importSongsBackup() {
+  const backupText = elements.backupText.value.trim();
+
+  if (!backupText) {
+    elements.backupStatus.textContent = "読み込む保存データがありません";
+    return;
+  }
+
+  try {
+    const parsedData = JSON.parse(backupText);
+    const importedSongs = extractBackupSongs(parsedData);
+
+    if (importedSongs.length === 0) {
+      elements.backupStatus.textContent = "読み込める曲データが見つかりません";
+      return;
+    }
+
+    const mergeResult = mergeImportedSongs(importedSongs);
+    saveSongs();
+    renderSongOptions();
+    renderCurrentSong();
+    elements.backupStatus.textContent = `${mergeResult.added}曲追加、${mergeResult.updated}曲更新しました`;
+  } catch {
+    elements.backupStatus.textContent = "保存データの形式を確認してください";
+  }
+}
+
+function extractBackupSongs(parsedData) {
+  const rawSongs = Array.isArray(parsedData) ? parsedData : parsedData?.songs;
+
+  if (!Array.isArray(rawSongs)) {
+    return [];
+  }
+
+  return rawSongs
+    .map(normalizeBackupSong)
+    .filter(Boolean);
+}
+
+function normalizeBackupSong(song) {
+  const title = String(song?.title || "").trim();
+  const chart = String(song?.chart || "").trim();
+  const durationSeconds = Number(song?.durationSeconds);
+
+  if (!title || !chart || !Number.isFinite(durationSeconds) || durationSeconds <= 0) {
+    return null;
+  }
+
+  return {
+    id: typeof song.id === "string" && song.id.trim() ? song.id.trim() : createSongId(),
+    title,
+    artist: String(song.artist || "").trim(),
+    capo: String(song.capo || "").trim(),
+    durationSeconds: Math.round(durationSeconds),
+    chart
+  };
+}
+
+function mergeImportedSongs(importedSongs) {
+  let added = 0;
+  let updated = 0;
+
+  importedSongs.forEach((importedSong) => {
+    const existingIndex = songs.findIndex((song) => {
+      return song.id === importedSong.id
+        || (song.title === importedSong.title && song.chart === importedSong.chart);
+    });
+
+    if (existingIndex >= 0) {
+      songs[existingIndex] = {
+        ...importedSong,
+        id: songs[existingIndex].id
+      };
+      currentSongId = songs[existingIndex].id;
+      updated += 1;
+      return;
+    }
+
+    songs.push({
+      ...importedSong,
+      id: createUniqueSongId(importedSong.id)
+    });
+    currentSongId = songs[songs.length - 1].id;
+    added += 1;
+  });
+
+  return { added, updated };
+}
+
+function createUniqueSongId(preferredId) {
+  const candidateId = preferredId || createSongId();
+
+  if (!songs.some((song) => song.id === candidateId)) {
+    return candidateId;
+  }
+
+  return createSongId();
+}
+
 function getCurrentSong() {
   return songs.find((song) => song.id === currentSongId) || songs[0];
 }
@@ -581,55 +707,6 @@ function renderSongOptions() {
   elements.songSelect.value = currentSongId;
 }
 
-function renderSongList() {
-  elements.songList.innerHTML = "";
-  elements.songCount.textContent = `${songs.length}曲`;
-
-  songs.forEach((song, index) => {
-    const item = document.createElement("article");
-    item.className = "song-list-item";
-
-    if (song.id === currentSongId) {
-      item.classList.add("is-current");
-    }
-
-    const detail = document.createElement("div");
-    detail.className = "song-list-detail";
-
-    const title = document.createElement("strong");
-    title.textContent = song.title;
-
-    const meta = document.createElement("span");
-    meta.textContent = getSongMetaParts(song).join(" ・ ");
-
-    detail.append(title, meta);
-
-    const actions = document.createElement("div");
-    actions.className = "song-list-actions";
-
-    const selectButton = createSongListButton("選択", "select", song.id);
-    const upButton = createSongListButton("上へ", "up", song.id);
-    const downButton = createSongListButton("下へ", "down", song.id);
-
-    upButton.disabled = index === 0;
-    downButton.disabled = index === songs.length - 1;
-
-    actions.append(selectButton, upButton, downButton);
-    item.append(detail, actions);
-    elements.songList.append(item);
-  });
-}
-
-function createSongListButton(label, action, songId) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "song-list-button";
-  button.textContent = label;
-  button.dataset.action = action;
-  button.dataset.songId = songId;
-  return button;
-}
-
 function renderCurrentSong() {
   const song = getCurrentSong();
   currentSongId = song.id;
@@ -643,7 +720,6 @@ function renderCurrentSong() {
     elements.chartLines.append(lineElement);
   });
 
-  renderSongList();
   fillEditor(song);
   resetPlayer();
 }
@@ -876,43 +952,6 @@ function handleSongDelete() {
   }
 
   currentSongId = songs[0].id;
-  saveSongs();
-  renderSongOptions();
-  renderCurrentSong();
-}
-
-function handleSongListClick(event) {
-  const button = event.target.closest("button[data-action][data-song-id]");
-
-  if (!button) {
-    return;
-  }
-
-  const action = button.dataset.action;
-  const songId = button.dataset.songId;
-
-  if (action === "select") {
-    currentSongId = songId;
-    renderCurrentSong();
-    return;
-  }
-
-  if (action === "up" || action === "down") {
-    moveSong(songId, action === "up" ? -1 : 1);
-  }
-}
-
-function moveSong(songId, direction) {
-  const currentIndex = songs.findIndex((song) => song.id === songId);
-  const nextIndex = currentIndex + direction;
-
-  if (currentIndex < 0 || nextIndex < 0 || nextIndex >= songs.length) {
-    return;
-  }
-
-  const [movingSong] = songs.splice(currentIndex, 1);
-  songs.splice(nextIndex, 0, movingSong);
-  currentSongId = movingSong.id;
   saveSongs();
   renderSongOptions();
   renderCurrentSong();
@@ -1190,9 +1229,10 @@ elements.toggleEditorButton.addEventListener("click", () => {
 
 elements.songForm.addEventListener("submit", handleSongSave);
 elements.importSongButton.addEventListener("click", importSongText);
+elements.exportSongsButton.addEventListener("click", exportSongsBackup);
+elements.importBackupButton.addEventListener("click", importSongsBackup);
 elements.newSongButton.addEventListener("click", prepareNewSong);
 elements.deleteSongButton.addEventListener("click", handleSongDelete);
-elements.songList.addEventListener("click", handleSongListClick);
 
 elements.performanceModeButton.addEventListener("click", () => {
   if (document.body.classList.contains("is-performance-mode")) {
