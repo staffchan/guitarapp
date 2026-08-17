@@ -489,6 +489,16 @@ function loadSongs() {
         return;
       }
 
+      const oldSakuraExtraChord = "E" + "sus4";
+      const sakuraChartAfterIntroFix = song.id === "sample-sakura"
+        ? song.chart.replace(new RegExp(` \\[${oldSakuraExtraChord}\\](\\n\\[E\\] \\[F#m7\\] \\[E\\])`), "$1")
+        : song.chart;
+      const isPreviousSakuraIntroVersion = song.id === "sample-sakura"
+        && song.title === originalSample.title
+        && sakuraChartAfterIntroFix === originalSample.chart
+        && song.durationSeconds === originalSample.durationSeconds
+        && (song.artist || "") === (originalSample.artist || "")
+        && (song.capo || "") === (originalSample.capo || "");
       const isPreviousBuiltInVersion = song.id === "sample-koyoi-no-tsuki"
         && song.title === originalSample.title
         && song.chart === originalSample.chart
@@ -509,7 +519,12 @@ function loadSongs() {
           )
         );
 
-      if (isPreviousBuiltInVersion || isPreviousBuiltInMetadataVersion || isCurrentBuiltInVersion) {
+      if (
+        isPreviousBuiltInVersion
+        || isPreviousSakuraIntroVersion
+        || isPreviousBuiltInMetadataVersion
+        || isCurrentBuiltInVersion
+      ) {
         orderedSongs.push(originalSample);
         includedSampleIds.add(originalSample.id);
         return;
