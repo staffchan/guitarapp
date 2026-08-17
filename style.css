@@ -323,22 +323,27 @@ textarea:focus {
   flex-wrap: wrap;
   align-items: flex-end;
   row-gap: 0.4rem;
+  column-gap: 0.62rem;
 }
 
 .chord-token {
   display: inline-grid;
-  min-width: 2.2rem;
-  margin-right: 0.28rem;
+  min-width: 2.65rem;
+  max-width: 100%;
+  padding-right: 0.12rem;
   vertical-align: top;
 }
 
 .chord-name {
   color: var(--chord);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
   font-size: clamp(0.92rem, 4.6vw, 1.55rem);
   font-weight: 950;
   line-height: 1;
+  white-space: nowrap;
   text-shadow: 0 2px 14px rgba(255, 211, 106, 0.22);
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 .token-lyric {
@@ -442,6 +447,16 @@ body.is-performance-mode .chart-title h2 {
 
 body.is-performance-mode .chart-lines {
   gap: 0.9rem;
+}
+
+body.is-performance-mode .chord-row {
+  column-gap: 0.82rem;
+  row-gap: 0.65rem;
+}
+
+body.is-performance-mode .chord-token {
+  min-width: 3.15rem;
+  padding-right: 0.18rem;
 }
 
 body.is-performance-mode .lyric-line {

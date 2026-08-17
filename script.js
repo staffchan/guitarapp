@@ -440,8 +440,9 @@ let elapsedBeforePause = 0;
 let lastTickTime = 0;
 let speed = Number(elements.speedRange.value);
 let audioFollowEnabled = false;
-const SOUND_HOLD_MS = 4000;
-const MIN_SOUND_THRESHOLD = 1.2;
+const SOUND_HOLD_MS = 1600;
+const MIN_SOUND_THRESHOLD = 1.8;
+const NOISE_THRESHOLD_MULTIPLIER = 2.3;
 const microphone = {
   stream: null,
   audioContext: null,
@@ -1311,7 +1312,7 @@ function updateVolumeMeter() {
     microphone.noiseFloor = microphone.noiseFloor * 0.98 + volume * 0.02;
   }
 
-  microphone.soundThreshold = Math.max(MIN_SOUND_THRESHOLD, microphone.noiseFloor * 1.8);
+  microphone.soundThreshold = Math.max(MIN_SOUND_THRESHOLD, microphone.noiseFloor * NOISE_THRESHOLD_MULTIPLIER);
 
   if (volume >= microphone.soundThreshold) {
     // コードの余韻やストローク間の短い無音では追従を止めません。
