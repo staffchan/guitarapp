@@ -144,7 +144,7 @@ const sampleSongs = [
     capo: "2",
     durationSeconds: 397,
     chart: `[A] [E] [F#m7] [C#m] [D] [E]
-[A] [E] [F#m7] [C#m] [D] [E] [Esus4]
+[A] [E] [F#m7] [C#m] [D] [E]
 [E] [F#m7] [E]
 
 [A]名もない花には [F#m7]名前をつけましょ[C#m]う
@@ -440,9 +440,12 @@ let elapsedBeforePause = 0;
 let lastTickTime = 0;
 let speed = Number(elements.speedRange.value);
 let audioFollowEnabled = false;
+let autoScrollUntil = 0;
+let manualScrollUntil = 0;
 const SOUND_HOLD_MS = 1600;
 const MIN_SOUND_THRESHOLD = 1.8;
 const NOISE_THRESHOLD_MULTIPLIER = 2.3;
+const MANUAL_SCROLL_HOLD_MS = 1800;
 const microphone = {
   stream: null,
   audioContext: null,
@@ -1406,11 +1409,43 @@ function resetPlayer() {
   animationId = null;
   elapsedBeforePause = 0;
   lastTickTime = 0;
+  autoScrollUntil = 0;
+  manualScrollUntil = 0;
   document.body.classList.remove("is-playing");
   elements.playPauseButton.textContent = "再生";
   elements.scrollStatus.textContent = "停止中";
   updatePerformanceStatus("停止中");
   window.scrollTo({ top: 0 });
+}
+
+function getMaxScroll() {
+  return Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+}
+
+function syncElapsedToScroll(durationMs) {
+  const maxScroll = getMaxScroll();
+
+  if (maxScroll <= 0) {
+    elapsedBeforePause = 0;
+    return;
+  }
+
+  const progress = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
+  elapsedBeforePause = progress * durationMs;
+}
+
+function handleManualScrollIntent() {
+  if (!animationId || !document.body.classList.contains("is-performance-mode")) {
+    return;
+  }
+
+  if (performance.now() <= autoScrollUntil) {
+    return;
+  }
+
+  manualScrollUntil = performance.now() + MANUAL_SCROLL_HOLD_MS;
+  syncElapsedToScroll(getCurrentSong().durationSeconds * 1000);
+  updateScrollStatus();
 }
 
 function tick() {
@@ -1420,19 +1455,25 @@ function tick() {
   const elapsedSinceLastTick = Math.max(0, now - lastTickTime);
   const canFollowSound = microphone.stream && now <= microphone.soundActiveUntil;
   const shouldAdvance = !audioFollowEnabled || canFollowSound;
+  const isManualScrolling = now <= manualScrollUntil;
 
   lastTickTime = now;
 
-  if (shouldAdvance) {
+  if (isManualScrolling) {
+    syncElapsedToScroll(durationMs);
+  } else if (shouldAdvance) {
     elapsedBeforePause += elapsedSinceLastTick * speed;
   }
 
   updateScrollStatus();
 
   const progress = Math.min(elapsedBeforePause / durationMs, 1);
-  const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+  const maxScroll = getMaxScroll();
 
-  window.scrollTo({ top: maxScroll * progress });
+  if (!isManualScrolling) {
+    autoScrollUntil = performance.now() + 120;
+    window.scrollTo({ top: maxScroll * progress });
+  }
 
   if (progress >= 1) {
     elapsedBeforePause = durationMs;
@@ -1449,6 +1490,12 @@ function tick() {
 
 function updateScrollStatus() {
   if (!animationId && !document.body.classList.contains("is-playing")) {
+    return;
+  }
+
+  if (performance.now() <= manualScrollUntil) {
+    elements.scrollStatus.textContent = "手スクロール中";
+    updatePerformanceStatus("手スクロール中");
     return;
   }
 
@@ -1519,6 +1566,10 @@ elements.speedRange.addEventListener("input", (event) => {
   speed = Number(event.target.value);
   elements.speedValue.textContent = `${speed.toFixed(2)}x`;
 });
+
+window.addEventListener("wheel", handleManualScrollIntent, { passive: true });
+window.addEventListener("touchmove", handleManualScrollIntent, { passive: true });
+window.addEventListener("scroll", handleManualScrollIntent, { passive: true });
 
 window.addEventListener("pagehide", stopMicrophone);
 

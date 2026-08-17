@@ -336,12 +336,13 @@ textarea:focus {
 
 .chord-name {
   color: var(--chord);
-  font-family: "Avenir Next", "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   font-size: clamp(0.92rem, 4.6vw, 1.55rem);
-  font-weight: 950;
+  font-weight: 850;
   line-height: 1;
   white-space: nowrap;
   text-shadow: 0 2px 14px rgba(255, 211, 106, 0.22);
+  font-variant-numeric: tabular-nums;
   overflow-wrap: normal;
   word-break: keep-all;
 }
@@ -422,7 +423,7 @@ body.is-performance-mode {
 }
 
 body.is-performance-mode main {
-  padding-bottom: 13rem;
+  padding-bottom: 6.5rem;
 }
 
 body.is-performance-mode .app-header,
@@ -472,19 +473,30 @@ body.is-performance-mode .token-lyric {
 }
 
 body.is-performance-mode .player-bar #playPauseButton,
-body.is-performance-mode .player-bar #resetButton,
-body.is-performance-mode .player-bar .speed-control {
+body.is-performance-mode .player-bar #resetButton {
   display: grid;
 }
 
+body.is-performance-mode .player-bar .speed-control {
+  display: none;
+}
+
 body.is-performance-mode .player-bar {
-  gap: 0.8rem;
-  padding-top: 0.9rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.45rem;
+  padding: 0.48rem 0.62rem calc(0.48rem + env(safe-area-inset-bottom));
 }
 
 body.is-performance-mode .control-button {
-  min-height: 68px;
-  font-size: 1.18rem;
+  min-height: 40px;
+  padding: 0.36rem 0.38rem;
+  font-size: 0.78rem;
+  line-height: 1.15;
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+body.is-performance-mode .play-button {
+  grid-column: auto;
 }
 
 body.is-performance-mode .chart-line {
